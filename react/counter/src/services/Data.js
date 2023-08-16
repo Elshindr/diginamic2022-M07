@@ -3,18 +3,18 @@ export default class Data {
   constructor() {
     this.url = 'http://localhost:3000/counters'
   }
-  static loadCounters() {
+  static async loadCounters() {
     // Pour rappel la fonction fetch retourne une promesse
-    return fetch(this.url)
+    return fetch('http://localhost:3000/counters')
     .then(response => {
       console.log(`response status`, response.status);
-      response.json();
+      return response.json();
     })
     .then(counters => {
-      console.log(`counters : `, counters);
+      return counters;
     })
     .catch(error => {
-      console.error("Erreur attrapée dans loadCounters", + error);
+      console.error("Erreur attrapée dans loadCounters", error);
     })
   }
 }
