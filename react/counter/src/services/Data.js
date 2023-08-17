@@ -29,4 +29,17 @@ export default class Data {
       .then((res) => { console.log(res) })
       .catch((error) => { console.error(error) })
   }
+  static async deleteCounter(id) {
+    // Pour rappel la fonction fetch retourne une promesse
+    return fetch(this.url + "/" + id,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "DELETE"
+      })
+      .then((res) => { console.log(res) })
+      .catch((error) => { console.error(error) })
+  }
 }

@@ -8,6 +8,8 @@ function App() {
   // Destructuring pour gérer le state
   const [counters, setCounters] = useState([]);
 
+  
+
   // Use Effect avec comme deuxième paramètre [] imite le hook componentDidMount
   useEffect(() => {
     //Imite ComponentDidMount et ne s'exécute qu'au premier rendu.
@@ -23,10 +25,10 @@ function App() {
   // Gestion de l'ajout d'un compteur
   const handleSubmitAdd = async (event, counter_value) => {
     event.preventDefault();
-    /* document.getElementById("counter-value").value = ''; */
+    
     console.log(`Dans handleSubmit`);
     // Ajout d'un compteur en faisant appel à l'api rest 
-    Data.addCounter(counter_value);
+    await Data.addCounter(counter_value);
     // Pour afficher, on peut simplement demander au service de recharger les données
     const loaded_counters = await Data.loadCounters();
     setCounters(loaded_counters);
