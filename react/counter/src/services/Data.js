@@ -15,7 +15,7 @@ export default class Data {
         console.error("Erreur attrapée dans loadCounters", error);
       })
   }
-  static async addCounter() {
+  static async addCounter(initial_value = 0) {
     // Pour rappel la fonction fetch retourne une promesse
     return fetch(this.url,
       {
@@ -24,7 +24,7 @@ export default class Data {
           'Content-Type': 'application/json'
         },
         method: "POST",
-        body: JSON.stringify({ "value": 100 })
+        body: JSON.stringify({ "value": initial_value })
       })
       .then((res) => { console.log(res) })
       .catch((error) => { console.error(error) })

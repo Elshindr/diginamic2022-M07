@@ -14,16 +14,21 @@ function App() {
     console.log(`Dans useEffect `);
     // Appel du service Data
     (async () => {
-      setCounters(await Data.loadCounters());
-      console.log(`counters dans useEffect : `, counters);
+      const loaded_counters = await Data.loadCounters();
+      console.log(`counters dans useEffect : `, loaded_counters);
+      setCounters(loaded_counters);
+
     })();
   }, []);
   // Gestion de l'ajout d'un compteur
-  const handleSubmitAdd = (event) => {
+  const handleSubmitAdd = async (event, counter_value) => {
     event.preventDefault();
     console.log(`Dans handleSubmit`);
     // Ajout d'un compteur en faisant appel à l'api rest 
-    Data.addCounter();
+    Data.addCounter(counter_value);
+    // Pour afficher, on peut simplement demander au service de recharger les données
+    const loaded_counters = await Data.loadCounters();
+    setCounters(loaded_counters);
   }
   // Incrémente uniquement le compteur dont on a l'id
   const increment = (id) => {
@@ -59,10 +64,8 @@ function App() {
       <h1>Compteur</h1>
       <h2>Créer un compteur</h2>
       <FormAdd
-        onAdd={(event)=>{
-          handleSubmitAdd(event);
-        }}
-       />
+        onAdd={handleSubmitAdd}
+      />
       <h2>Voir et gérer les compteurs</h2>
       <button
         onClick={incrementAll}
