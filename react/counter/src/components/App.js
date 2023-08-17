@@ -23,6 +23,7 @@ function App() {
   // Gestion de l'ajout d'un compteur
   const handleSubmitAdd = async (event, counter_value) => {
     event.preventDefault();
+    /* document.getElementById("counter-value").value = ''; */
     console.log(`Dans handleSubmit`);
     // Ajout d'un compteur en faisant appel à l'api rest 
     Data.addCounter(counter_value);
