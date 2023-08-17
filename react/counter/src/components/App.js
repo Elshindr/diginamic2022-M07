@@ -17,17 +17,24 @@ function App() {
       console.log(`counters dans useEffect : `, counters);
     })();
   }, []);
-  /* const maVariable = useState(0)[0];
-  const setMaVariable = useState(0)[1]; */
-  const increment = () => {
-    setCounters(counters => counters.map(counter => {
-      counter.value ++;
+
+  // Incrémente uniquement le compteur dont on a l'index
+  const increment = (index) => {
+    console.log(`Dans increment`);
+    setCounters(counters => counters.map((counter, i) => {
+      counter.value = ((i === index) ? counter.value++ : counter.value);
       return counter;
     }));
   }
-  const decrement = () => {
+  const incrementAll = () => {
+    setCounters(counters => counters.map(counter => {
+      counter.value++;
+      return counter;
+    }));
+  }
+  const decrementAll = () => {
     const copy_counters = counters.map(counter => {
-      counter.value --;
+      counter.value--;
       return counter;
     })
     setCounters(counters => copy_counters);
@@ -36,14 +43,18 @@ function App() {
     <div className="App container">
       <h1>Compteur</h1>
       <button
-        onClick={increment}
+        onClick={incrementAll}
         className="btn btn-warning me-3">Incrémenter
       </button>
       <button
-        onClick={decrement}
+        onClick={decrementAll}
         className="btn btn-warning me-3">Decrémenter
       </button>
-      {counters.map(counter => <Counter key={counter.id} counter={counter} />)}
+      {counters.map((counter, index) => <Counter
+        key={counter.id}
+        index={index}
+        counter={counter}
+        onIncrement={increment} />)}
 
     </div>
   );
