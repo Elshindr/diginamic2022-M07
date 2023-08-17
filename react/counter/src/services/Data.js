@@ -1,11 +1,9 @@
 
 export default class Data {
-  constructor() {
-    this.url = 'http://localhost:3000/counters'
-  }
+  static url = 'http://localhost:3000/counters';
   static async loadCounters() {
     // Pour rappel la fonction fetch retourne une promesse
-    return fetch('http://localhost:3000/counters')
+    return fetch(this.url)
     .then(response => {
       console.log(`response status`, response.status);
       return response.json();
