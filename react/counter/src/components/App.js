@@ -20,10 +20,17 @@ function App() {
   /* const maVariable = useState(0)[0];
   const setMaVariable = useState(0)[1]; */
   const increment = () => {
-    /* setCounter(counter => counter + 1); */
+    setCounters(counters => counters.map(counter => {
+      counter.value ++;
+      return counter;
+    }));
   }
   const decrement = () => {
-    /* setCounter(counter => counter - 1); */
+    const copy_counters = counters.map(counter => {
+      counter.value --;
+      return counter;
+    })
+    setCounters(counters => copy_counters);
   }
   return (
     <div className="App container">
@@ -37,7 +44,7 @@ function App() {
         className="btn btn-warning me-3">Decrémenter
       </button>
       {counters.map(counter => <Counter key={counter.id} counter={counter} />)}
-      
+
     </div>
   );
 }
