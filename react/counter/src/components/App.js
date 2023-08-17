@@ -33,6 +33,18 @@ function App() {
     const loaded_counters = await Data.loadCounters();
     setCounters(loaded_counters);
   }
+  // Gestion de la suppression d'un compteur
+  const handleClickDelete = async (event, counter_id) => {
+    
+    console.log(`Dans handleClickDelete : `, counter_id);
+    // Ajout d'un compteur en faisant appel à l'api rest 
+    await Data.deleteCounter(counter_id);
+    // Pour afficher, on peut filtrer le tableau 
+    const filtered_counters = counters.filter(counter => {
+      if (counter.id !== counter_id) return counter;
+    })
+    setCounters(filtered_counters);
+  }
   // Incrémente uniquement le compteur dont on a l'id
   const increment = (id) => {
     console.log(`Dans increment`);
@@ -64,7 +76,7 @@ function App() {
   }
   return (
     <div className="App container">
-      <h1>Compteur</h1>
+      <h1>Compteurs</h1>
       <h2>Créer un compteur</h2>
       <FormAdd
         onAdd={handleSubmitAdd}
@@ -84,6 +96,7 @@ function App() {
           counter={counter}
           onIncrement={increment}
           onDecrement={decrement}
+          onDelete={handleClickDelete}
         />)}
 
     </div>
