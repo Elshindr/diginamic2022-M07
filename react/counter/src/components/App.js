@@ -2,6 +2,7 @@ import './App.css';
 import Counter from './Counter';
 import { useState, useEffect } from 'react';
 import Data from '../services/Data';
+import FormAdd from './FormAdd';
 
 function App() {
   // Destructuring pour gérer le state
@@ -17,7 +18,13 @@ function App() {
       console.log(`counters dans useEffect : `, counters);
     })();
   }, []);
-
+  // Gestion de l'ajout d'un compteur
+  const handleSubmitAdd = (event) => {
+    event.preventDefault();
+    console.log(`Dans handleSubmit`);
+    // Ajout d'un compteur en faisant appel à l'api rest 
+    Data.addCounter();
+  }
   // Incrémente uniquement le compteur dont on a l'id
   const increment = (id) => {
     console.log(`Dans increment`);
@@ -50,6 +57,13 @@ function App() {
   return (
     <div className="App container">
       <h1>Compteur</h1>
+      <h2>Créer un compteur</h2>
+      <FormAdd
+        onAdd={(event)=>{
+          handleSubmitAdd(event);
+        }}
+       />
+      <h2>Voir et gérer les compteurs</h2>
       <button
         onClick={incrementAll}
         className="btn btn-warning me-3">Incrémenter
