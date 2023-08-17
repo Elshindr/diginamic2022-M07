@@ -18,11 +18,19 @@ function App() {
     })();
   }, []);
 
-  // Incrémente uniquement le compteur dont on a l'index
-  const increment = (index) => {
+  // Incrémente uniquement le compteur dont on a l'id
+  const increment = (id) => {
     console.log(`Dans increment`);
-    setCounters(counters => counters.map((counter, i) => {
-      counter.value = ((i === index) ? counter.value++ : counter.value);
+    setCounters(counters => counters.map((counter) => {
+      if (id === counter.id) counter.value++;
+      return counter;
+    }));
+  }
+  // Décrémente uniquement le compteur dont on a l'id
+  const decrement = (id) => {
+    console.log(`Dans decrement`);
+    setCounters(counters => counters.map((counter) => {
+      if (id === counter.id) counter.value--;
       return counter;
     }));
   }
@@ -50,11 +58,13 @@ function App() {
         onClick={decrementAll}
         className="btn btn-warning me-3">Decrémenter
       </button>
-      {counters.map((counter, index) => <Counter
-        key={counter.id}
-        index={index}
-        counter={counter}
-        onIncrement={increment} />)}
+      {counters.map((counter) =>
+        <Counter
+          key={counter.id}
+          counter={counter}
+          onIncrement={increment}
+          onDecrement={decrement}
+        />)}
 
     </div>
   );
