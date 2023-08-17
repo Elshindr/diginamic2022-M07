@@ -1,6 +1,8 @@
 const Counter = (props) => {
   return (
-    <button className="btn btn-success">{props.counter}</button>
+    <div className="my-2">
+      <button className="btn btn-success">{props.counter.value}</button>
+    </div>
   );
 }
 
