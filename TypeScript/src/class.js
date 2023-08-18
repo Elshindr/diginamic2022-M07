@@ -1,6 +1,8 @@
 "use strict";
 class Base {
-    _x = 12;
+    constructor() {
+        this._x = 12;
+    }
     get x() {
         return this._x;
     }
