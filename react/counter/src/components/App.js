@@ -47,19 +47,21 @@ function App() {
   }
   // Incrémente uniquement le compteur dont on a l'id
   const increment = (id) => {
-    console.log(`Dans increment`);
-    setCounters(counters => counters.map((counter) => {
+    console.log(`Dans increment, id : `, id);
+    const copy_counters = counters.map((counter) => {
       if (id === counter.id) counter.value++;
       return counter;
-    }));
+    });
+    setCounters(counters => copy_counters);
   }
   // Décrémente uniquement le compteur dont on a l'id
   const decrement = (id) => {
     console.log(`Dans decrement`);
-    setCounters(counters => counters.map((counter) => {
+    const copy_counters = counters.map((counter) => {
       if (id === counter.id) counter.value--;
       return counter;
-    }));
+    })
+    setCounters(counters => copy_counters);
   }
   const incrementAll = () => {
     setCounters(counters => counters.map(counter => {
