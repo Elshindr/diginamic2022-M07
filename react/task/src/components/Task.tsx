@@ -1,8 +1,5 @@
-import TaskInterface from "../Interface/TaskInterface";
-interface TaskInterfaceProps extends TaskInterface {
-  onClickValidate: (event: React.MouseEvent<HTMLButtonElement>, task_id: number) => void;
-  onClickDelete: (event: React.MouseEvent<HTMLButtonElement>, task_id: number) => void;
-}
+import {TaskInterfaceProps} from "../Interface/TaskInterface";
+
 const Task = (props: TaskInterfaceProps): React.JSX.Element => {
   const class_validate = props.done ? "text-decoration-line-through" : "";
   return (
