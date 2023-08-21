@@ -22,12 +22,28 @@ function App() {
 
     const copy_tasks = tasks.map(task => {
       if (task_id === task.id) {
+        task.order = (task.done) ? getMinimumOrder() : getMaximumOrder();
+        console.log(`order : `, task.order);
+        task.done = !task.done;
+        Data.ValidateTask(task_id, task.done, task.order);
+      }
+      return task;
+    });
+    setTasks(copy_tasks);
+
+  }
+  const handleClickOrderButton = (event: React.MouseEvent<HTMLButtonElement>, task_id: number): void => {
+    console.log(`Dans handleClickOrderButton`, task_id);
+
+    /* const copy_tasks = tasks.map(task => {
+      if (task_id === task.id) {
+        task.order = (task.done) ? getMinimumOrder() : getMaximumOrder();
         task.done = !task.done;
         Data.ValidateTask(task_id, task.done);
       }
       return task;
     });
-    setTasks(copy_tasks);
+    setTasks(copy_tasks); */
 
   }
   const handleClickDelete = (event: React.MouseEvent<HTMLButtonElement>, task_id: number): void => {
@@ -45,11 +61,12 @@ function App() {
   }
   const handleSubmitAdd = async (event: React.SyntheticEvent, description: string) => {
     event.preventDefault();
-    console.log(`Dans handleSubmitAdd, description : `, description);
+    const order = getMinimumOrder();
+    console.log(`Dans handleSubmitAdd, description, order : `, description, order);
     const new_task: TaskInterfacePost = {
       description: description,
       done: false,
-      order: 0
+      order: order
     }
     await Data.addTask(new_task);
     const loadedTasks: TaskInterface[] = await Data.loadTasks();
@@ -57,9 +74,28 @@ function App() {
     setTasks(loadedTasks);
   }
   const sorted_tasks = [...tasks].sort((a, b) => {
-    if (a.done === b.done) return -1;
-    else return 1;
+    return (a.order - b.order);
   });
+  const getMinimumOrder = (): number => {
+    const copy_tasks = [...tasks];
+    const mini: any = copy_tasks.reduce((accumulator: any, currentValue: any) => {
+      if (accumulator.hasOwnProperty("order")) {
+        if (accumulator.order > currentValue.order) return currentValue;
+        return accumulator
+      }
+    });
+    return mini.order - 1;
+  }
+  const getMaximumOrder = (): number => {
+    const copy_tasks = [...tasks];
+    const maxi: any = copy_tasks.reduce((accumulator: any, currentValue: any) => {
+      if (accumulator.hasOwnProperty("order")) {
+        if (currentValue.order > accumulator.order) return currentValue;
+        return accumulator;
+      }
+    });
+    return maxi.order + 1;
+  }
   return (
     <div className="App container">
       <h1>Liste des tâches</h1>
@@ -67,7 +103,12 @@ function App() {
         onClick={() => { setShowForm(!showForm) }}
         className='btn btn-success'>{showForm ? 'Cacher le formulaire' : 'Ajouter une tâche'}</button>
       {showForm && (<FormAddTask onSubmitAdd={handleSubmitAdd} />)}
-      {sorted_tasks.map((task) => <Task key={task.id} {...task} onClickValidate={handleClickValidate} onClickDelete={handleClickDelete} />)}
+      {sorted_tasks.map((task) => <Task
+        key={task.id}
+        {...task}
+        onClickValidate={handleClickValidate}
+        onClickDelete={handleClickDelete}
+        onClickOrderButton={handleClickOrderButton} />)}
     </div>
   );
 }

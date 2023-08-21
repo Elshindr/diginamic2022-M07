@@ -10,12 +10,20 @@ const Task = (props: TaskInterfaceProps): React.JSX.Element => {
           onClick={(event) => {
             props.onClickValidate(event, props.id);
           }}
-          className="btn btn-success me-3">{props.done ? "Invalider" : "Valider"}</button>
+          className="btn btn-success me-3">{props.done ? "Invalider" : "Valider"}
+          </button>
         <button
           onClick={(event) => {
             props.onClickDelete(event, props.id);
           }}
-          className="btn btn-danger me-3">Supprimer</button>
+          className="btn btn-danger me-3">Supprimer
+          </button>
+          <button
+          onClick={(event) => {
+            props.onClickOrderButton(event, props.id);
+          }}
+          className="btn btn-danger me-3">V
+          </button>
       </div>
     </section>
   );

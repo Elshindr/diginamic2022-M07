@@ -4,16 +4,11 @@ const FormAddTask = (props: { onSubmitAdd: Function }) => {
   return (
     <form
       onSubmit={(event) => {
-        //const description:(null|string) = "Acheter le pain";
-        //const description:(null|string) = document.getElementById("task-description").value;
-        //const description: (null|string) ?= document.querySelector<HTMLInputElement>('#task-description').value;
         if (inputRef.current != null) {
           const description = inputRef.current.value;
+          inputRef.current.value = "";
           props.onSubmitAdd(event, description);
         }
-
-
-
       }}
       className="form d-flex gap-2 mt-4 align-items-center">
       <label className="form-label" htmlFor="task-description">Tâche : </label>

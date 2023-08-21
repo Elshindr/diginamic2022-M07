@@ -1,7 +1,7 @@
 export interface TaskInterfacePost {
   description: string;
   done: boolean;
-  order?: number;
+  order: number;
 }
 export default interface TaskInterface extends TaskInterfacePost {
   id: number;
@@ -9,4 +9,5 @@ export default interface TaskInterface extends TaskInterfacePost {
 export interface TaskInterfaceProps extends TaskInterface {
   onClickValidate: (event: React.MouseEvent<HTMLButtonElement>, task_id: number) => void;
   onClickDelete: (event: React.MouseEvent<HTMLButtonElement>, task_id: number) => void;
+  onClickOrderButton: (event: React.MouseEvent<HTMLButtonElement>, task_id: number) => void;
 }
