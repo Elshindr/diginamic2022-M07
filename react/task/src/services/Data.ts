@@ -41,7 +41,31 @@ export default class Data {
         return tasks;
       })
       .catch((error) => {
-        console.error("Erreur attrapée dans loadTasks", error);
+        console.error("Erreur attrapée dans ValidateTasks", error);
+      });
+  }
+  /**
+   * Supprime une tâche via l'appel de l'api de json-server 
+   * en utilisant  le verbe "DELETE"
+   * @returns Promise<any>
+   */
+  static async DeleteTask(task_id: number, done:boolean): Promise<any> {
+    // Pour rappel, fetch renvoie une promesse
+    return fetch(this.url + "/" + task_id, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "DELETE"
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((tasks) => {
+        return tasks;
+      })
+      .catch((error) => {
+        console.error("Erreur attrapée dans DeleteTasks", error);
       });
   }
 }

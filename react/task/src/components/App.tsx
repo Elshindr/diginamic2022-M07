@@ -27,6 +27,21 @@ function App() {
     setTasks(copy_tasks);
 
   }
+  const handleClickDelete = (event: React.MouseEvent<HTMLButtonElement>, task_id: number): void => {
+    console.log(`Dans handleClickDelete`, task_id);
+    if(window.confirm("Voulez-vous supprimer cette tâche ?")){
+      const copy_tasks = tasks.filter(task => {
+        if (task_id !== task.id) {
+          Data.DeleteTask(task_id, task.done);
+          return task;
+        }
+        
+      });
+      setTasks(copy_tasks);
+    }
+    
+
+  }
   const sorted_tasks = [...tasks].sort((a, b) => {
     if (a.done === b.done) return -1;
     else return 1;
@@ -34,7 +49,7 @@ function App() {
   return (
     <div className="App container">
       <h1>Liste des tâches</h1>
-      {sorted_tasks.map((task) => <Task key={task.id} {...task} onClickValidate={handleClickValidate} />)}
+      {sorted_tasks.map((task) => <Task key={task.id} {...task} onClickValidate={handleClickValidate} onClickDelete={handleClickDelete} />)}
     </div>
   );
 }
