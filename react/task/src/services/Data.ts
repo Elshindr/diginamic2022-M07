@@ -1,4 +1,7 @@
-import TaskInterface, { TaskInterfacePost } from "../Interface/TaskInterface";
+import TaskInterface, {
+  Direction,
+  TaskInterfacePost,
+} from "../Interface/TaskInterface";
 export default class Data {
   static url: string = "http://localhost:3001/tasks";
   /**
@@ -13,6 +16,7 @@ export default class Data {
         return response.json();
       })
       .then((tasks) => {
+        console.log(`Tasks dans loadTasks`, tasks);
         return tasks;
       })
       .catch((error) => {
@@ -46,6 +50,34 @@ export default class Data {
       })
       .catch((error) => {
         console.error("Erreur attrapée dans ValidateTasks", error);
+      });
+  }
+  /**
+   * Modifie la valeur de la propriété "order" via l'appel de l'api de json-server
+   * en utilisant  le verbe "PATCH"
+   * @returns Promise<any>
+   */
+  static async reOrderTask(
+    task_id: number,
+    order: number
+  ): Promise<any> {
+    // Pour rappel, fetch renvoie une promesse
+    return fetch(this.url + "/" + task_id, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "PATCH",
+      body: JSON.stringify({ order }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((tasks) => {
+        return tasks;
+      })
+      .catch((error) => {
+        console.error("Erreur attrapée dans reOrderTask", error);
       });
   }
   /**
@@ -96,5 +128,44 @@ export default class Data {
       .catch((error) => {
         console.error("Erreur attrapée dans addTask", error);
       });
+  }
+  /**
+   * Réordonne le tableau en faisant un double map
+   * Met à jour le fichier json en faisant des requetes http avec le verbe patch
+   * @returns Promise<any>
+   */
+  static reOrderTasks(
+    tasks: TaskInterface[],
+    task_id: number,
+    direction: Direction
+  ): TaskInterface[] {
+    //console.log(`Dans reOrderTasks, tasks`, tasks, task_id, direction);
+    let next = false;
+    const reordererdTasks = tasks
+      .map((task, index) => {
+        task.order = index;
+        return task;
+      })
+      .map((task, index, tasks) => {
+        if (task.id === task_id) {
+          task.order++;
+          console.log(
+            `Je passe dans task.id === task_id : task.id, task.order `,
+            task.id,
+            task.order
+          );
+          next = true;
+        } else if (next) {
+          //console.log(`Je passe dans task.id === task_id : `, task.id);
+          task.order--;
+          next = false;
+        } else task.order = index;
+        return task;
+      });
+    console.log(`reordererdTasks : `, reordererdTasks);
+    reordererdTasks.forEach(task => {
+      this.reOrderTask(task.id, task.order);
+    })
+    return reordererdTasks;
   }
 }

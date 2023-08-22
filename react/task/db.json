@@ -10,18 +10,18 @@
       "id": 2,
       "description": "Faire du sport",
       "done": false,
-      "order": 2
+      "order": -1
     },
     {
-      "description": "32",
+      "description": "Préparer mes cours",
       "done": false,
-      "order": 0,
+      "order": -1,
       "id": 3
     },
     {
-      "description": "37",
-      "done": true,
-      "order": 3,
+      "description": "Repeindre le salon",
+      "done": false,
+      "order": -1,
       "id": 4
     }
   ]

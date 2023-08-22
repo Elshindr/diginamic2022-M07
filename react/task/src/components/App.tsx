@@ -2,9 +2,10 @@ import './App.css';
 import React from 'react';
 import Task from './Task';
 import { useState, useEffect } from 'react';
-import TaskInterface, { TaskInterfacePost } from '../Interface/TaskInterface';
+import TaskInterface, { TaskInterfacePost, Direction } from '../Interface/TaskInterface';
 import Data from '../services/Data';
 import FormAddTask from './FormAddTask';
+import { reOrderTasks, getMaximumOrder, getMinimumOrder } from './../utils/utils';
 
 function App() {
   const [tasks, setTasks] = useState<TaskInterface[]>([]);
@@ -22,7 +23,7 @@ function App() {
 
     const copy_tasks = tasks.map(task => {
       if (task_id === task.id) {
-        task.order = (task.done) ? getMinimumOrder() : getMaximumOrder();
+        task.order = (task.done) ? getMinimumOrder([...tasks]) : getMaximumOrder([...tasks]);
         console.log(`order : `, task.order);
         task.done = !task.done;
         Data.ValidateTask(task_id, task.done, task.order);
@@ -32,19 +33,20 @@ function App() {
     setTasks(copy_tasks);
 
   }
-  const handleClickOrderButton = (event: React.MouseEvent<HTMLButtonElement>, task_id: number): void => {
-    console.log(`Dans handleClickOrderButton`, task_id);
-
-    /* const copy_tasks = tasks.map(task => {
-      if (task_id === task.id) {
-        task.order = (task.done) ? getMinimumOrder() : getMaximumOrder();
-        task.done = !task.done;
-        Data.ValidateTask(task_id, task.done);
-      }
-      return task;
-    });
-    setTasks(copy_tasks); */
-
+  const handleClickOrderButton = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    task_id: number,
+    index: number,
+    direction: Direction): void => {
+    //console.log(`Dans handleClickOrderButton, task_id, direction, tasks `, task_id, direction, tasks);
+    if ((index < tasks.length - 1) && direction === 1) {
+      const reorderedTasks = reOrderTasks([...tasks], task_id, direction);
+      setTasks(reorderedTasks);
+    }
+    else if ((index > 0) && direction === 0) {
+      const reorderedTasks = reOrderTasks([...tasks], task_id, direction);
+      setTasks(reorderedTasks);
+    }
   }
   const handleClickDelete = (event: React.MouseEvent<HTMLButtonElement>, task_id: number): void => {
     console.log(`Dans handleClickDelete`, task_id);
@@ -61,7 +63,7 @@ function App() {
   }
   const handleSubmitAdd = async (event: React.SyntheticEvent, description: string) => {
     event.preventDefault();
-    const order = getMinimumOrder();
+    const order = getMinimumOrder([...tasks]);
     console.log(`Dans handleSubmitAdd, description, order : `, description, order);
     const new_task: TaskInterfacePost = {
       description: description,
@@ -76,26 +78,7 @@ function App() {
   const sorted_tasks = [...tasks].sort((a, b) => {
     return (a.order - b.order);
   });
-  const getMinimumOrder = (): number => {
-    const copy_tasks = [...tasks];
-    const mini: any = copy_tasks.reduce((accumulator: any, currentValue: any) => {
-      if (accumulator.hasOwnProperty("order")) {
-        if (accumulator.order > currentValue.order) return currentValue;
-        return accumulator
-      }
-    });
-    return mini.order - 1;
-  }
-  const getMaximumOrder = (): number => {
-    const copy_tasks = [...tasks];
-    const maxi: any = copy_tasks.reduce((accumulator: any, currentValue: any) => {
-      if (accumulator.hasOwnProperty("order")) {
-        if (currentValue.order > accumulator.order) return currentValue;
-        return accumulator;
-      }
-    });
-    return maxi.order + 1;
-  }
+
   return (
     <div className="App container">
       <h1>Liste des tâches</h1>
@@ -103,12 +86,14 @@ function App() {
         onClick={() => { setShowForm(!showForm) }}
         className='btn btn-success'>{showForm ? 'Cacher le formulaire' : 'Ajouter une tâche'}</button>
       {showForm && (<FormAddTask onSubmitAdd={handleSubmitAdd} />)}
-      {sorted_tasks.map((task) => <Task
+      {sorted_tasks.map((task,index) => <Task
         key={task.id}
         {...task}
         onClickValidate={handleClickValidate}
         onClickDelete={handleClickDelete}
-        onClickOrderButton={handleClickOrderButton} />)}
+        onClickOrderButton={handleClickOrderButton}
+        index={index}
+        tasks_length={sorted_tasks.length} />)}
     </div>
   );
 }
