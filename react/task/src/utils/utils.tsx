@@ -2,7 +2,7 @@ import TaskInterface, {
   Direction,
 } from "../Interface/TaskInterface";
 /**
-   * Réordonne le tableau en faisant un double map
+   * Réordonne le tableau en faisant un sort puis un double map
    * Met à jour le fichier json en faisant des requetes http avec le verbe patch
    * @returns Promise<any>
    */
