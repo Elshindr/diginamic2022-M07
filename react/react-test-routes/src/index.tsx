@@ -11,7 +11,7 @@ import {
   Route,
   RouterProvider
 } from 'react-router-dom';
-
+import {loader as articlesLoader} from './loaders/articles'
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -19,7 +19,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="" element={<Home/>} />
-      <Route path="articles" element={<Articles/>} />
+      <Route path="articles" element={<Articles/>} loader={articlesLoader} />
     </Route>
   )
 )

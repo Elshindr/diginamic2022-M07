@@ -1,0 +1,6 @@
+{
+  "articles": [
+    { "id": 1, "name": "vtt", "validated": "false" },
+    { "id": 2, "name": "casque", "validated": "false" }
+  ]
+}
