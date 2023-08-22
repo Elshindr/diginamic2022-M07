@@ -11,21 +11,25 @@ import {
   Route,
   RouterProvider
 } from 'react-router-dom';
-import {loader as articlesLoader} from './loaders/articles'
+import { loader as articlesLoader } from './loaders/articles';
+import {actionAdd as addArticle} from './actions/article';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route path="" element={<Home/>} />
-      <Route path="articles" element={<Articles/>} loader={articlesLoader} />
-    </Route>
+    <>
+      <Route path="/" element={<App />}>
+        <Route path="" element={<Home />} />
+        <Route path="articles" element={<Articles />} loader={articlesLoader} />
+      </Route>
+      <Route path="/add/article" action={addArticle} />
+    </>
   )
 )
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

@@ -28,4 +28,17 @@ export default class Data {
         console.error("Erreur attrapée dans loadArticles " + error);
       });
   }
+  async addArticle(name:string){
+    fetch(this.base_url + "articles",
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({ "name": name, "validated": false })
+    })
+    .then(function (res) { console.log(res) })
+    .catch(function (res) { console.error(res) })
+  }
 }
