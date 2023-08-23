@@ -47,6 +47,7 @@ function App() {
       const reorderedTasks = reOrderTasks([...tasks], task_id, direction);
       setTasks(reorderedTasks);
     }
+    Data.putTasks([...tasks]);
   }
   const handleClickDelete = (event: React.MouseEvent<HTMLButtonElement>, task_id: number): void => {
     console.log(`Dans handleClickDelete`, task_id);
@@ -86,7 +87,7 @@ function App() {
         onClick={() => { setShowForm(!showForm) }}
         className='btn btn-success'>{showForm ? 'Cacher le formulaire' : 'Ajouter une tâche'}</button>
       {showForm && (<FormAddTask onSubmitAdd={handleSubmitAdd} />)}
-      {sorted_tasks.map((task,index) => <Task
+      {sorted_tasks.map((task, index) => <Task
         key={task.id}
         {...task}
         onClickValidate={handleClickValidate}

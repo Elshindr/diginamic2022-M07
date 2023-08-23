@@ -4,30 +4,30 @@
       "id": 1,
       "description": "Faire la vaisselle",
       "done": false,
-      "order": 1
+      "order": 2
     },
     {
       "id": 2,
       "description": "Faire du sport",
       "done": false,
-      "order": -1
+      "order": 1
     },
     {
       "description": "Préparer mes cours",
       "done": false,
-      "order": -1,
+      "order": 3,
       "id": 3
     },
     {
       "description": "Repeindre le salon",
       "done": false,
-      "order": -1,
+      "order": 0,
       "id": 4
     },
     {
       "description": "Faire la sieste",
       "done": false,
-      "order": -1,
+      "order": 4,
       "id": 5
     }
   ]

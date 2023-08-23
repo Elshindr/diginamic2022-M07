@@ -1,5 +1,5 @@
 import { TaskInterfaceProps, Direction } from "../Interface/TaskInterface";
-
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 const Task = (props: TaskInterfaceProps): React.JSX.Element => {
   const class_validate = props.done ? "text-decoration-line-through" : "";
   return (
@@ -25,7 +25,7 @@ const Task = (props: TaskInterfaceProps): React.JSX.Element => {
               onClick={(event) => {
                 props.onClickOrderButton(event, props.id, props.index, Direction.Down);
               }}
-              className="btn btn-warning me-3">V
+              className="btn btn-warning me-3"><AiOutlineArrowDown />
             </button>
           )}
           {(props.index > 0) && (
@@ -33,7 +33,7 @@ const Task = (props: TaskInterfaceProps): React.JSX.Element => {
               onClick={(event) => {
                 props.onClickOrderButton(event, props.id, props.index, Direction.Up);
               }}
-              className="btn btn-warning me-3">^
+              className="btn btn-warning me-3"><AiOutlineArrowUp/>
             </button>
           )}
         </div>

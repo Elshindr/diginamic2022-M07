@@ -1,3 +1,7 @@
+# Fonctionnement de l'application
+L'application utilise json-server avec le fichier db.json qui se trouve à la racine.
+json-server doit utiliser le port 3001 :
+json-server --watch db.json --port 3001
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

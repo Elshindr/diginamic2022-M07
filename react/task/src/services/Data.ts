@@ -1,7 +1,8 @@
 import TaskInterface, {
   Direction,
   TaskInterfacePost,
-} from "../Interface/TaskInterface";
+} from "./../Interface/TaskInterface";
+
 export default class Data {
   static url: string = "http://localhost:3001/tasks";
   /**
@@ -57,10 +58,7 @@ export default class Data {
    * en utilisant  le verbe "PATCH"
    * @returns Promise<any>
    */
-  static async reOrderTask(
-    task_id: number,
-    order: number
-  ): Promise<any> {
+  static async reOrderTask(task_id: number, order: number): Promise<any> {
     // Pour rappel, fetch renvoie une promesse
     return fetch(this.url + "/" + task_id, {
       headers: {
@@ -163,9 +161,35 @@ export default class Data {
         return task;
       });
     console.log(`reordererdTasks : `, reordererdTasks);
-    reordererdTasks.forEach(task => {
+    reordererdTasks.forEach((task) => {
       this.reOrderTask(task.id, task.order);
-    })
+    });
     return reordererdTasks;
+  }
+  /**
+   * Modifie la valeur de la propriété "done" via l'appel de l'api de json-server
+   * en utilisant  le verbe "PUT"
+   * @returns Promise<any>
+   */
+  static putTasks(tasks: TaskInterface[]): any {
+    tasks.forEach(async (task: TaskInterface) => {
+      await fetch(this.url + "/" + task.id, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "PUT",
+        body: JSON.stringify(task),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((tasks) => {
+          return tasks;
+        })
+        .catch((error) => {
+          console.error("Erreur attrapée dans putTasks", error);
+        });
+    });
   }
 }
